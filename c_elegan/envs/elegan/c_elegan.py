@@ -1,54 +1,54 @@
-from queue import deque
 import numpy as np
+from queue import deque
 
-class Snake():
+class CElegan():
 
     """
-    The Snake class holds all pertinent information regarding the Snake's movement and boday.
-    The position of the snake is tracked using a queue that stores the positions of the body.
+    The CElegan class holds all pertinent information regarding the CElegan's movement and body.
+    The position of the c-elegan is tracked using a queue that stores the positions of the body.
 
     Note:
     A potentially more space efficient implementation could track directional changes rather
-    than tracking each location of the snake's body.
+    than tracking each location of the c-elegan's body.
     """
 
-    UP = 0
-    RIGHT = 1
-    DOWN = 2
-    LEFT = 3
+    NORTH = 0
+    EAST = 1
+    SOUTH = 2
+    WEST = 3
 
     def __init__(self, head_coord_start, length=3):
         """
-        head_coord_start - tuple, list, or ndarray denoting the starting coordinates for the snake's head
-        length - starting number of units in snake's body
+        head_coord_start - tuple, list, or ndarray denoting the starting coordinates for the c-elegan's head
+        length - starting number of units in c-elegan's body
         """
-
-        self.direction = self.DOWN
+        self.direction = self.SOUTH
         self.head = np.asarray(head_coord_start).astype(np.int)
-        self.head_color = np.array([255,0,0], np.uint8)
+        self.head_color = -1
         self.body = deque()
         for i in range(length-1, 0, -1):
             self.body.append(self.head-np.asarray([0,i]).astype(np.int))
 
     def step(self, coord, direction):
         """
-        Takes a step in the specified direction from the specified coordinate.
+        Finds the coordinate corresponding to a step in the specified direction 
+        from the specified coordinate.
 
         coord - list, tuple, or numpy array
-        direction - integer from 1-4 inclusive.
-            0: up
-            1: right
-            2: down
-            3: left
+        direction - integer from 0-3 inclusive.
+            0: NORTH
+            1: EAST
+            2: SOUTH
+            3: WEST
         """
 
         assert direction < 4 and direction >= 0
 
-        if direction == self.UP:
+        if direction == self.NORTH:
             return np.asarray([coord[0], coord[1]-1]).astype(np.int)
-        elif direction == self.RIGHT:
+        elif direction == self.EAST:
             return np.asarray([coord[0]+1, coord[1]]).astype(np.int)
-        elif direction == self.DOWN:
+        elif direction == self.SOUTH:
             return np.asarray([coord[0], coord[1]+1]).astype(np.int)
         else:
             return np.asarray([coord[0]-1, coord[1]]).astype(np.int)
@@ -60,22 +60,20 @@ class Snake():
         last piece of the body if no food is eaten on this step.
 
         The direction can be any integer value, but will be collapsed
-        to 1, 2, 3, or 4 corresponding to up, right, down, left respectively.
+        to 0, 1, or 2 corresponding to left, straight, and right respectively.
 
-        direction - integer from 1-4 inclusive.
-            0: up
-            1: right
-            2: down
-            3: left
+        direction - integer from 0-2 inclusive.
+            0: left
+            1: straight
+            2: right
         """
 
-        # Ensure direction is either 0, 1, 2, or 3
-        direction = (int(direction) % 4)
-
-        if np.abs(self.direction-direction) != 2:
-            self.direction = direction
+        # Ensure literal direction is either 0, 1, 2, or 3
+        direction = (int(direction) % 3)-1
+        self.direction = (self.direction + direction) % 4
 
         self.body.append(self.head)
+        self.body.popleft()
         self.head = self.step(self.head, self.direction)
 
         return self.head

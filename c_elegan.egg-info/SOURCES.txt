@@ -1,0 +1,5 @@
+c_elegan.egg-info/PKG-INFO
+c_elegan.egg-info/SOURCES.txt
+c_elegan.egg-info/dependency_links.txt
+c_elegan.egg-info/requires.txt
+c_elegan.egg-info/top_level.txt

@@ -29,9 +29,10 @@ Use `gym.make('CElegan-v0')` to make a new environment with the following defaul
 ## Game Details
 #### Actions
 There are 3 possible actions. Each is relative to the elegan's head position and current direction.
--0: left
--1: straight
--2: right
+
+- 0: left
+- 1: straight
+- 2: right
 
 #### Observations
 Each observation consists of the gradient of the distance from the food in the spaces to the right and left of the elegan's head. This means that the observation space is a vector of length 2. Each c-elegan receives a unique observation vector.

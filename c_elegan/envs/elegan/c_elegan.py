@@ -17,16 +17,16 @@ class CElegan():
     SOUTH = 2
     WEST = 3
 
-    def __init__(self, head_coord_start, length=3):
+    def __init__(self, head_coord_start):
         """
         head_coord_start - tuple, list, or ndarray denoting the starting coordinates for the c-elegan's head
-        length - starting number of units in c-elegan's body
         """
         self.direction = self.SOUTH
         self.head = np.asarray(head_coord_start).astype(np.int)
         self.head_color = -1
         self.body = deque()
-        for i in range(length-1, 0, -1):
+        body_length = 3
+        for i in range(body_length-1, 0, -1):
             self.body.append(self.head-np.asarray([0,i]).astype(np.int))
 
     def step(self, coord, direction):

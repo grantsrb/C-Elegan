@@ -44,6 +44,8 @@ class Grid():
         coord - x,y integer coordinates as a float
         """
 
+        if self.off_grid(coord):
+            return -1
         return self.grid[int(coord[1]*self.unit_size), int(coord[0]*self.unit_size)]
 
     def draw(self, coord, color):
@@ -83,7 +85,8 @@ class Grid():
         """
         grid_copy = self.grid.copy()
         for elegan in elegans:
-            grid_copy = self.draw_elegan(grid_copy, elegan)
+            if elegan is not None:
+                grid_copy = self.draw_elegan(grid_copy, elegan)
         return grid_copy
 
     def draw_elegan(self, grid, elegan):
@@ -116,11 +119,7 @@ class Grid():
         """
         Draws a food on a random, open unit of the grid.
         """
-        coord_not_found = True
-        while(coord_not_found):
-            coord = (np.random.randint(0,self.grid_size[0]), np.random.randint(0,self.grid_size[1]))
-            if np.array_equal(self.color_of(coord), self.SPACE_COLOR):
-                coord_not_found = False
+        coord = (np.random.randint(0,self.grid_size[0]), np.random.randint(0,self.grid_size[1]))
         self.fill_gradient(coord, self.FOOD_COLOR)
 
     def fill_gradient(self, food_coord, intensity):
@@ -133,11 +132,17 @@ class Grid():
 
         for i in range(self.grid_size[0]):
             for j in range(self.grid_size[1]):
-                space = np.array([i,j])
+                space = np.array([j,i])
                 sqr_dist = (food_coord - space)**2
                 grad = intensity/(np.sqrt(np.sum(sqr_dist))+1)**2
                 self.draw(space, grad)
 
+    def food_space(self, coord):
+        """
+        Checks if food is located at this coordinate.
+        """
+        return self.color_of(coord) == self.FOOD_COLOR
+        
     def off_grid(self, coord):
         """
         Checks if argued coord is off of the grid

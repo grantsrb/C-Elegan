@@ -25,8 +25,8 @@ class CEleganEnv(gym.Env):
         return self.controller.step(action)
 
     def _reset(self):
-        self.controller = Controller(self.grid_size, self.unit_size, self.unit_gap, self.snake_size, self.n_elegans, self.n_foods)
-        return self.controller.get_observations()
+        self.controller = Controller(self.grid_size, self.unit_size, self.unit_gap, self.n_elegans, self.n_foods)
+        return self.controller.get_obses()
 
     def _render(self, mode='human', close=False):
         obs = self.controller.grid.draw_elegans(self.controller.elegans)

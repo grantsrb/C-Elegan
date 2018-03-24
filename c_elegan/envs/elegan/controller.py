@@ -107,7 +107,7 @@ class Controller():
                 return self.grid.null_obs(), 0, True, {"elegans_remaining":self.elegans_remaining}
             else:
                 obses = []
-                for i in range(len(self.elegans):
+                for i in range(len(self.elegans)):
                     obses.append(self.grid.null_obs())
                 return obses, [0]*len(directions), True, {"elegans_remaining":self.elegans_remaining}
 

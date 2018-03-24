@@ -11,8 +11,8 @@ class Grid():
     Note that it is assumed spaces that can kill a c-elegan have a non-zero value as their 0 channel.
     """
 
-    ELEGAN_COLOR = -1.
-    FOOD_COLOR = 1.
+    ELEGAN_COLOR = -1.5
+    FOOD_COLOR = 5.
     SPACE_COLOR = 0
 
     def __init__(self, grid_size=[30,30], unit_size=10, unit_gap=1):
@@ -95,7 +95,7 @@ class Grid():
         """
         grid = self.draw_copy(grid, elegan.head, elegan.head_color)
         for bod in elegan.body:
-            grid = self.draw_copy(grid, bod, elegan.head_color)
+            grid = self.draw_copy(grid, bod, self.ELEGAN_COLOR)
         return grid
 
     def erase(self, coord):

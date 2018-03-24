@@ -44,7 +44,6 @@ No extra reward is given for victory elegans in plural play.
 - _grid_size_ - An x,y coordinate denoting the number of units on the elegan grid (width, height).
 - _unit_size_ - Number of numpy pixels within a single grid unit.
 - _unit_gap_ - Number of pixels separating each unit of the grid. Space between the units can be useful to understand the direction of the elegan's body.
-- _elegan_size_ - Number of body units for each elegan at start of game
 - _n_elegans_ - Number of individual elegans on grid
 - _n_foods_ - Number of food units (the stuff that makes the elegans grow) on the grid at any given time.
 
@@ -64,7 +63,7 @@ The elegan environment has three main interacting classes to construct the envir
     import c_elegan
 
     # Construct Environment
-    env = gym.make('Elegan-v0')
+    env = gym.make('CElegan-v0')
     observation = env.reset() # Constructs an instance of the game
 
     # Controller
@@ -78,22 +77,17 @@ The elegan environment has three main interacting classes to construct the envir
     elegans_array = game_controller.elegans
     elegan_object1 = elegans[0]
 
-#### Using Multiple Snakes
-Snakes can be distinguished by the Green value of their `head_color` attribute. Each head color consists of [Red=255, Green=uniqueNonZeroValue, Blue=0]. For each elegan instantiated, the head color will corespond to its index within the controller's elegan array. The head value will take on [255, (i+1)*10, 0] where i is the index of the elegan.
-
-When using multiple elegans, at each step, you pass an array of actions corresponding to the action of each elegan. The return is an array of rewards corresponding each elegan. The reward returned upon a elegans' death is -1, each subsequent step after this, however, is a reward of 0. The contents of the action array are ignored at a dead elegan's index, the action array must, however, continue to have an index for each elegan that originally started out the game.
-
 #### Coordinates
 The units of the game are made to take up multiple pixels within the grid. Each unit has an x,y coordinate associated with it where (0,0) represents the uppermost left unit of the grid and (`grid_object.grid_size[0]`, `grid_object.grid_size[1]`) denotes the lowermost right unit of the grid. Positional information about elegan food and elegans' bodies is encoded using this coordinate system.
 
-#### Snake Class
+#### CElegan Class
 This class holds all pertinent information about an individual elegan. Useful information includes:
 
     # Action constants denote the action space.
-    elegan_object1.UP # Equal to integer 0
-    elegan_object1.RIGHT # Equal to integer 1
-    elegan_object1.DOWN # Equal to integer 2
-    elegan_object1.LEFT # Equal to integer 3
+    elegan_object1.NORTH # Equal to integer 0
+    elegan_object1.EAST # Equal to integer 1
+    elegan_object1.SOUTH # Equal to integer 2
+    elegan_object1.WEST # Equal to integer 3
 
     # Member Variables
     elegan_object1.direction # Indicates which direction the elegan's head is pointing; initially points DOWN
@@ -106,10 +100,7 @@ This class holds all pertinent information about the grid that the elegans move 
 
     # Color constants give information about the colors of the grid
     # Each are ndarrays with dtype uint8
-    grid_object.BODY_COLOR # [1,0,0] Color of elegan body units
-    grid_object.HEAD_COLOR # [255, (i+1)*10, 0] Color of elegan head units. i is the index of the elegan.
-    grid_object.FOOD_COLOR # [0,0,255] Color of food units
-    grid_object.SPACE_COLOR # [0,255,0] Color of blank space
+    grid_object.FOOD_COLOR # 1.
 
     # Member Variables
     grid_object.unit_size # See Game Options

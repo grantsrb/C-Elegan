@@ -21,14 +21,14 @@ class CEleganEnv(gym.Env):
         self.viewer = None
         self.action_space = Discrete(3)
 
-    def _step(self, action):
+    def step(self, action):
         return self.controller.step(action)
 
-    def _reset(self):
+    def reset(self):
         self.controller = Controller(self.grid_size, self.unit_size, self.unit_gap, self.n_elegans, self.n_foods)
         return self.controller.get_obses()
 
-    def _render(self, mode='human', close=False):
+    def render(self, mode='human', close=False):
         obs = self.controller.grid.draw_elegans(self.controller.elegans)
         if self.viewer is None:
             self.viewer = plt.imshow(obs)
@@ -37,5 +37,5 @@ class CEleganEnv(gym.Env):
         plt.pause(0.1)
         plt.draw()
 
-    def _seed(self, x):
+    def seed(self, x):
         pass
